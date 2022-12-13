@@ -77,7 +77,8 @@
   * [Custom Parameters](#custom-parameters)
   * [Custom IP Configuration](#custom-ip-configuration) 
     * [Custom Station (client) Static IP Configuration](#custom-station-client-static-ip-configuration)
-  * [Custom HTML, CSS, Javascript](#custom-html-css-javascript) 
+  * [Custom HTML, CSS, Javascript](#custom-html-css-javascript)
+* [How to connect W5100 to ESP8266](#How-to-connect-W5100-to-ESP8266)
 * [Examples](#examples)
   * [Async_ConfigOnSwitch](examples/Async_ConfigOnSwitch)
   * [Async_ConfigOnSwitchFS](examples/Async_ConfigOnSwitchFS)
@@ -1630,6 +1631,39 @@ ESPAsync_EMParameter custom_mqtt_server("server", "mqtt server", "iot.eclipse", 
 
 ---
 ---
+
+
+#### How to connect W5100 to ESP8266
+
+You can change the `CS/SS` pin to another one. Default is `GPIO16`
+
+Connecting `CS/SS` to `TX0/GPIO15` interferes with uploading firmware to ESP8266. If absolutely necessary to use `TX0/GPIO15`, remove the wire to `TX0/GPIO15` before uploading firmware. Then reconnect after done uploading.
+
+```cpp
+// Using GPIO4, GPIO16, or GPIO5
+#define CSPIN             16
+```
+
+---
+
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/AsyncESP8266_W5100_Manager/raw/main/Images/Wiznet-Ethernet-Hat_RP2040.png">
+</p>
+
+
+|W5100|<--->|ESP8266|
+|:-:|:-:|:-:|
+|MOSI|<--->|GPIO13|
+|MISO|<--->|GPIO12|
+|SCK|<--->|GPIO14|
+|SS|<--->|GPIO16|
+|GND|<--->|GND|
+|3.3V|<--->|3.3V|
+
+---
+---
+
 
 ### Examples
 
