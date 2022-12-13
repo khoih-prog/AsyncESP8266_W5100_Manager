@@ -618,8 +618,8 @@ IPAddress dns2IP      = IPAddress(8, 8, 8, 8);
 
 
 ```cpp
-//AsyncESP8266_W5100_Manager.setSTAStaticIPConfig(stationIP, gatewayIP, netMask, dns1IP, dns2IP);
-AsyncESP8266_W5100_Manager.setSTAStaticIPConfig(WM_STA_IPconfig);
+//AsyncESP8266_W5100_manager.setSTAStaticIPConfig(stationIP, gatewayIP, netMask, dns1IP, dns2IP);
+AsyncESP8266_W5100_manager.setSTAStaticIPConfig(WM_STA_IPconfig);
 ```
 
 ---
@@ -642,7 +642,7 @@ AsyncESP8266_W5100_Manager.setSTAStaticIPConfig(WM_STA_IPconfig);
 ...
 
 #if USING_CORS_FEATURE
-  ESP_wifiManager.setCORSHeader("Your Access-Control-Allow-Origin");
+  ESP_wifimanager.setCORSHeader("Your Access-Control-Allow-Origin");
 #endif
 ```
 
@@ -670,7 +670,7 @@ AsyncESP8266_W5100_Manager.setSTAStaticIPConfig(WM_STA_IPconfig);
 
 
 ```cpp
-String tempTZ = AsyncESP8266_W5100_Manager.getTimezoneName();
+String tempTZ = AsyncESP8266_W5100_manager.getTimezoneName();
 ```
 
 ---
@@ -699,7 +699,7 @@ configTime(Ethconfig.TZ, "pool.ntp.org");
 2. To convert from `_timezoneName` to `TZ`, use the function `getTZ()` as follows:
 
 ```cpp
-const char * TZ_Result = AsyncESP8266_W5100_Manager.getTZ(_timezoneName);
+const char * TZ_Result = AsyncESP8266_W5100_manager.getTZ(_timezoneName);
 ```
 
 The conversion depends on the stored TZs, which is using some memory, and can cause issue for ESP8266 in certain cases. Therefore, enable just the region you're interested.
@@ -771,7 +771,7 @@ void printLocalTime()
 AsyncWebServer webServer(HTTP_PORT);
 AsyncDNSServer dnsServer;
 
-AsyncESP8266_W5100_Manager AsyncESP8266_W5100_Manager(&webServer, &dnsServer);
+AsyncESP8266_W5100_Manager AsyncESP8266_W5100_manager(&webServer, &dnsServer);
 ```
 
 If you'd like to have a personalized hostname 
@@ -780,13 +780,13 @@ If you'd like to have a personalized hostname
 add
 
 ```cpp
-AsyncESP8266_W5100_Manager AsyncESP8266_W5100_Manager(&webServer, &dnsServer, "Personalized-HostName");
+AsyncESP8266_W5100_Manager AsyncESP8266_W5100_manager(&webServer, &dnsServer, "Personalized-HostName");
 ```
 
 then later call
 
 ```cpp
-AsyncESP8266_W5100_Manager.startConfigPortal()
+AsyncESP8266_W5100_manager.startConfigPortal()
 ```
 
 While in Config Portal, connect to it using its AP IP, e.g. `192.168.2.186`, configure Credentials, then save. The settings will be saved in non volatile memory. It will then reboot and autoconnect.
@@ -853,7 +853,7 @@ void loop()
     digitalWrite(LED_BUILTIN, LED_ON); // turn the LED on by making the voltage LOW to tell us we are in configuration mode.
 
     //Local initialization. Once its business is done, there is no need to keep it around
-    AsyncESP8266_W5100_Manager AsyncESP8266_W5100_Manager(&webServer, &dnsServer, "ConfigOnSwitchFS");
+    AsyncESP8266_W5100_Manager AsyncESP8266_W5100_manager(&webServer, &dnsServer, "ConfigOnSwitchFS");
 
     //Check if there is stored WiFi router/password credentials.
     //If not found, device will remain in configuration mode until switched off via webserver.
@@ -977,10 +977,10 @@ Add parameter objects, previously created in Step 2, such as : `p_thingspeakApiK
 ```cpp
 //add all parameters here
 
-AsyncESP8266_W5100_Manager.addParameter(&p_thingspeakApiKey);
-AsyncESP8266_W5100_Manager.addParameter(&p_sensorDht22);
-AsyncESP8266_W5100_Manager.addParameter(&p_pinSda);
-AsyncESP8266_W5100_Manager.addParameter(&p_pinScl);
+AsyncESP8266_W5100_manager.addParameter(&p_thingspeakApiKey);
+AsyncESP8266_W5100_manager.addParameter(&p_sensorDht22);
+AsyncESP8266_W5100_manager.addParameter(&p_pinSda);
+AsyncESP8266_W5100_manager.addParameter(&p_pinScl);
 ```
 
 ---
@@ -1418,7 +1418,7 @@ This gets called when custom parameters have been set **AND** a connection has b
 See [Async_ConfigOnSwitchFS Example](examples/Async_ConfigOnSwitchFS).
 
 ```cpp
-AsyncESP8266_W5100_Manager.setSaveConfigCallback(saveConfigCallback);
+AsyncESP8266_W5100_manager.setSaveConfigCallback(saveConfigCallback);
 ```
 saveConfigCallback declaration and example
 
@@ -1441,7 +1441,7 @@ void saveConfigCallback ()
 If you need to set a timeout so the `ESP8266` doesn't hang waiting to be configured for ever. 
 
 ```cpp
-AsyncESP8266_W5100_Manager.setConfigPortalTimeout(120);
+AsyncESP8266_W5100_manager.setConfigPortalTimeout(120);
 ```
 
 which will wait 2 minutes (120 seconds). When the time passes, the `startConfigPortal()` function will return and continue the sketch, 
@@ -1597,7 +1597,7 @@ You can set a custom IP for both AP (access point, config mode) and STA (station
 This will use the specified IP configuration instead of using DHCP in station mode.
 
 ```cpp
-AsyncESP8266_W5100_Manager.setSTAStaticIPConfig(IPAddress(192,168,2,186), IPAddress(192,168,2,1), IPAddress(255,255,255,0));
+AsyncESP8266_W5100_manager.setSTAStaticIPConfig(IPAddress(192,168,2,186), IPAddress(192,168,2,1), IPAddress(255,255,255,0));
 ```
 
 ---
@@ -1612,14 +1612,14 @@ The options are:
 You can use this to any html bit to the head of the ConfigPortal. If you add a `<style>` element, bare in mind it overwrites the included css, not replaces.
 
 ```cpp
-AsyncESP8266_W5100_Manager.setCustomHeadElement("<style>html{filter: invert(100%); -webkit-filter: invert(100%);}</style>");
+AsyncESP8266_W5100_manager.setCustomHeadElement("<style>html{filter: invert(100%); -webkit-filter: invert(100%);}</style>");
 ```
 
 - inject a custom bit of html in the configuration form
 
 ```cpp
 ESPAsync_EMParameter custom_text("<p>This is just a text paragraph</p>");
-AsyncESP8266_W5100_Manager.addParameter(&custom_text);
+AsyncESP8266_W5100_manager.addParameter(&custom_text);
 ```
 
 - inject a custom bit of html in a configuration form element
@@ -1996,7 +1996,7 @@ HHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH
 Debug is enabled by default on Serial. To disable, add before `startConfigPortal()`
 
 ```cpp
-AsyncESP8266_W5100_Manager.setDebugOutput(false);
+AsyncESP8266_W5100_manager.setDebugOutput(false);
 ```
 
 You can also change the debugging level from 0 to 4
